@@ -1,0 +1,36 @@
+{{>header}}
+<div class="text-center">
+     <p>Bienvenido a la pagina de Inicio de los cursos de extension</p>
+</div>
+<!--Login-->
+    <div class="text-center" style="margin-left: 35%; margin-right: 35%">
+        <form>
+            <h4 class="text-center">Login</h4>
+            <!--Campo de email-->
+            <div class="form-group">
+                <input type="email" class="form-control" id="txtEmail" aria-describedby="emailHelp" placeholder="E-mail">
+            </div>
+            <div class="form-group">
+                <div class="input-group" id="show_hide_password">
+                    <!--Campo de contraseña-->
+                    <input type="password" class="form-control" placeholder="Ingrese su contraseña">
+                    <div class="input-group-addon">
+                        <div class="input-group-text"><a href="#"><i class="fa fa-eye-slash" aria-hidden="true"></i></a></div>
+                    </div>
+                </div>
+            </div>
+            <!--Boton para validar campos-->
+            <div class="text-center">
+                <input type="button" value="Entrar" class="btn btn-success"/>
+            </div>
+        </form>
+    </div>
+    <!--El mensaje de error que muestra al hacer un login incorrecto (Escondido hasta que se valide la info de login)-->
+    <div class="text-center">
+        <div class="alert alert-danger" role="alert" style="display: none">
+            <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span> ¡Email o contraseña incorrectos!
+        </div>
+    </div>
+{{{listar}}}
+{{>footer}}
