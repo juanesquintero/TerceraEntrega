@@ -55,7 +55,7 @@ app.use(require('./routes/index'))
 
 mongoose.connect('mongodb://localhost:27017/educacionContinua', {useNewUrlParser: true},(err, result)=>{
     if(err) return console.log(err)
-    return console.log('Conectado')
+    return console.log('Conectado a Mongo')
 });
 
 //Port 
