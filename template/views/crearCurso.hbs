@@ -1,8 +1,7 @@
 {{>header}}
 <div style="margin-left: 30px; margin-right: 40px" >
-
     <h4 class="form-group text-center">Crear un curso</h4>
-    <form data-toggle="validator" style="margin-left: 30px; margin-right: 40px" action="/cursos" method="POST"> 
+    <form data-toggle="validator" style="margin-left: 30px; margin-right: 40px" action="/crearCurso" method="POST"> 
             <!--Campos del CRUD cursos-->
             <div class="form-group row">
                 <div class="col-sm-1">
@@ -22,7 +21,6 @@
                 <input type="number"  min="0" name="intensidad" class="form-control input-sm" placeholder="Intesidad" >
            </div>
             </div>
-
             
             <div class="form-group row">
             <div class="col-sm-6">
@@ -34,8 +32,9 @@
             </div>
             <!--Boton para validar campos-->
             <div class="text-center">
-                <input type="submit" value="Enviar" on class="btn btn-success" />
+                <input type="submit" value="Crear Curso" on class="btn btn-success" />
             </div>
     </form>
 </div>
+    {{{mensaje}}}
 {{>footer}}

@@ -1,66 +1,65 @@
+require('./config/config')
 const express = require('express')
 const app = express()
 const path = require('path')
-const hbs = require('hbs')
+const mongoose =  require('mongoose')
 const bodyParser =  require('body-parser')
-require('./helpers')
+const session = require('express-session')
+const jwt = require('jsonwebtoken');
  
+//Node local storage
+if (typeof localStorage === "undefined" || localStorage === null) {
+    var LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+}  
+
 //Directorios
-const directoriopublico = path.join(__dirname,'../public')
-const directoriopartials = path.join(__dirname,'../partials')
-// app.use(express.static(directoriopublico))
-hbs.registerPartials(directoriopartials)
+const dirPublic = path.join(__dirname,'../public')
+const dirNode_modules = path.join(__dirname,'../node_modules')
+app.use(express.static(dirPublic))
+app.use('/js',express.static(dirNode_modules+'/popper.js'))
+app.use('/js',express.static(dirNode_modules+'/jquery'))
+
+//Session
+// app.use(session({
+//     secret: 'keyboard cat',
+//     resave: false,
+//     saveUninitialized: true
+// }))
+
+app.use((req,res,next)=>{
+    let token  =  localStorage.getItem('token')
+    jwt.verify(token, 'secretoken', function(err, decoded) {
+        if(err){
+            console.log(err)
+            return next()
+        }
+        res.locals.sesion = true
+        res.locals.nombre = decoded.data.nombre
+        res.locals.rol = decoded.data.rol
+        req.usuario = decoded.data._id        
+        next()
+    });
+
+    //VARIABLES DE SESION
+    // if(req.session.usuario){
+    //     res.locals.sesion = true,
+    //     res.locals.nombre = req.session.nombre
+    // }
+    // next()
+})
 
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.set('view engine', 'hbs')
+app.use(require('./routes/index'))
 
-app.get('/',(req,res)=>{
-    res.render('index')
-})
-app.get('/crear',(req,res)=>{
-    res.render('crear')
-})
-app.get('/cursos',(req,res)=>{
-    res.render('cursos')
-})
-app.post('/cursos',(req,res)=>{
-    let {curso, id, nombre, intensidad, valor, descripcion, modalidad} = req.body
-    res.render('cursos',{
-        curso: curso,
-        id: id,
-        nombre: nombre,
-        intensidad: intensidad,
-        valor: valor,
-        descripcion: descripcion,
-        modalidad: modalidad,
-    })
-})
-app.get('/inscribir',(req,res)=>{
-    res.render('inscribir')
-})
-
-app.get('/inscritos',(req,res)=>{
-    res.render('inscritos')
-})
-
-app.post('/inscritos',(req,res)=>{
-    let {di, nombre, email, tel, curso, estudiante} = req.body
-    res.render('inscritos',{
-        di: di ,
-        nombre: nombre ,
-        email: email ,
-        tel: tel,
-        curso: curso,
-        estudiante: estudiante
-    })
-})
-
-app.get('*',(req,res)=>{
-    res.render('error')
-})
+mongoose.connect('mongodb://localhost:27017/educacionContinua', {useNewUrlParser: true},(err, result)=>{
+    if(err) return console.log(err)
+    return console.log('Conectado')
+});
 
 //Port 
-app.listen(3000,()=>{
-    console.log('escuchando por el puerto 3000')
-})
+app.listen(process.env.PORT,()=>{
+    console.log('escuchando por el puerto '+process.env.PORT)
+}) 
+
