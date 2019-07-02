@@ -53,6 +53,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.use(require('./routes/index'))
 
+const urlDB = process.env.URI
 mongoose.connect(process.env.URI, {useNewUrlParser: true},(err, result)=>{
     if(err) return console.log(err)
     return console.log('Conectado a Mongo')
