@@ -1,7 +1,6 @@
 const hbs = require('hbs')
 const fs= require('fs')
 
-
 hbs.registerHelper('equals', function(arg1, arg2) {
     return (arg1 == arg2);
 });
@@ -132,7 +131,6 @@ hbs.registerHelper('mostrarInscritos',(cursos,inscritos) =>{
     texto = texto + `</div>`
     return texto
 })
-
 const listarInscritos = (inscritos,curso) =>{
     let texto = '<table class="table">\
     <thead class="bg-success">\
