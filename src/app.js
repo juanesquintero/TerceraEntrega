@@ -59,7 +59,8 @@ mongoose.connect('mongodb://localhost:27017/educacionContinua', {useNewUrlParser
 });
 
 //Port 
-app.listen(process.env.PORT,()=>{
-    console.log('escuchando por el puerto '+process.env.PORT)
+const port = process.env.PORT || 3000
+app.listen(port,()=>{
+    console.log('escuchando por el puerto '+port)
 }) 
 
